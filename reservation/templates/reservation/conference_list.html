@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load staticfiles %}
+    <script src = "{% static "js/init.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="" />
+
+</head>
+<body>
+    conference_list ::: {{ year|date:"Y" }}
+    <hr/>
+{{ list }}
+<hr/>
+
+{{ yyyymmdd }}
+<ul>
+{% for conf in conference_infos %}
+    <li>
+    {{ conf }} / {{ conf.conference_description }} / {{ conf.start_date }} / {{ conf.user.name }}({{conf.user.email}})
+    </li>
+{% endfor %}
+</ul>
+    <hr/>
+{{ conference_infos }}
+</body>
+</html>
