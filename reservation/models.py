@@ -13,6 +13,8 @@ class UserInfo(models.Model):
 
     class Meta:
         db_table = 'res_user'
+        verbose_name_plural = '사용자 정보'
+        verbose_name = '사용자 정보'
 
     def __str__(self):
         part_name = self.part_name
@@ -26,10 +28,12 @@ class RoomInfo(models.Model):
     room_desc = models.CharField("회의실 설명", max_length=200, blank=True)
     room_capacity = models.IntegerField(verbose_name="수용 인원", default=0)
     create_date = models.DateTimeField("생성일시", auto_now_add=True)
-    update_date = models.DateTimeField("수정일시", auto_now=True, null=True)
+    update_date = models.DateTimeField("수정일시", null=True)
 
     class Meta:
         db_table = 'res_room_info'
+        verbose_name_plural = '회의실 정보'
+        verbose_name = '회의실 정보'
 
 
     def __str__(self):
@@ -37,17 +41,19 @@ class RoomInfo(models.Model):
 
 # 회의 설정 테이블
 class ConferenceInfo(models.Model):
-    room = models.ForeignKey(RoomInfo)
+    room = models.ForeignKey(RoomInfo, related_name='conference')
     user = models.ForeignKey(UserInfo)
     conference_title = models.CharField("회의 제목", max_length=45)
     conference_description = models.TextField("회의 내용", blank=True)
     start_date = models.DateTimeField("회의 시작일시")
     end_date = models.DateTimeField("회의 종료일시")
     create_date = models.DateTimeField("생성일시", auto_now_add=True)
-    update_date = models.DateTimeField("수정일시", auto_now=True, null=True)
+    update_date = models.DateTimeField("수정일시", null=True)
 
     class Meta:
         db_table = 'res_conference_info'
+        verbose_name_plural = '회의 설정 정보'
+        verbose_name = '회의 설정 정보'
 
     def __str__(self):
         return self.conference_title
@@ -55,18 +61,20 @@ class ConferenceInfo(models.Model):
 
 # 회의 참석자 설정 테이블
 class ConferenceMember(models.Model):
-    conference = models.ForeignKey(ConferenceInfo)
+    conference = models.ForeignKey(ConferenceInfo, related_name='members', default="", on_delete=models.CASCADE) # 부모 entry를 delete() 시, 자식 entry를 함께 삭제한다.
     user = models.ForeignKey(UserInfo)
-    etc_member = models.CharField("그외 참석자", max_length=45)
+    etc_member = models.CharField("그외 참석자", max_length=45, blank=True)
     create_date = models.DateTimeField("생성일시", auto_now_add=True)
     update_date = models.DateTimeField("수정일시", auto_now=True, null=True)
 
 
     class Meta:
         db_table = 'res_conference_member'
+        verbose_name_plural = '참석자 정보'
+        verbose_name = '참석자 정보'
 
     def __str__(self):
-        return ConferenceInfo(self.conference)
+        return self.conference.conference_title
 
 
 

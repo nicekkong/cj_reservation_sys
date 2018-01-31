@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <script src = "{% static "js/init.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="" />
+
+</head>
+<body>
+
+<h1>{{ date }} 일정</h1>
+
+<ul>
+    {% for conf in conference_infos %}
+        <li>회의명 : {{ conf }}</li>
+        <li>회의 주제 : {{ conf.conference_description }}</li>
+        <li>회의실 : {{conf.room.room_name}}</li>
+        <li>회의 시간 : {{ conf.start_date | date:'H:i'}} ~ {{ conf.end_date  | date:'H:i'}}</li>
+        <li>담당자 : {{ conf.user.name }}({{conf.user.email}}) </li>
+
+        <li>
+            <dt>참석자
+            {% with members_count=conf.members.count %}
+                {% if conf.members.count == 0 %}
+                    (총 - 명)
+                {% else %}
+                    (총 {{  members_count }}명)
+                {% endif %}
+            {% endwith %}
+            </dt>
+            {% for member in conf.members.all %}
+                <dd>{{ member.user.name }} / {{ member.user.email }}</dd>
+            {% endfor %}
+        </li>
+        <hr/>
+    {% endfor %}
+</ul>
+</body>
+</html>
