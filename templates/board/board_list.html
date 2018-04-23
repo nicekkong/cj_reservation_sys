@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Board List {% endblock %}
+
+{% block contents %}
+    <p></p>
+
+    <div class="row">
+        <p class="lead text-light bg-dark"><b>Board List</b></p>
+    </div>
+    <table class="table table-hover">
+        <caption>List of users</caption>
+        <thead>
+        <tr class="table-info">
+            <th>#</th>
+            <th>Title</th>
+            <th>Last Name</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td><span class="badge badge-pill badge-primary">N</span> Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+{% endblock contents %}
