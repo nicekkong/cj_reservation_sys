@@ -4,7 +4,72 @@
 {% block title %}Board Form {% endblock %}
 
 {% block contents %}
+    <div class="row">
+        <p class="lead text-light bg-dark"><b>Board Form</b></p>
+    </div>
 
-write / modify / new
+
+    <div class="form-group">
+        <label for="title_label">Title</label>
+        <input type="text" class="form-control" id="title" >
+    </div>
+    <div class="form-group">
+        <label for="title_label">Writer</label>
+        <input type="text" class="form-control" id="writer" >
+    </div>
+    <div class="row"></div>
+
+    <div class="form-group">
+        <label for="contents_lable">Contents</label>
+        <textarea class="form-control" id="contents" rows="5"></textarea>
+    </div>
+
+
+    <button type="submit" class="btn btn-outline-info" id="save" onclick="savePost()">Save</button>
+
+
+
 
 {% endblock contents %}
+
+{% block script %}
+<script>
+
+    function savePost() {
+
+        var title = jQuery('#title').val();
+        var writer = jQuery('#writer').val();
+        var contents = jQuery('#contents').val();
+
+        jQuery.ajax({
+            url: '/board/save/',
+            data: {
+                title: title,
+                writer: writer,
+                contents: contents
+            },
+            beforeSend: function (xmlHttpRequest) {
+                // $('#splashDsp').show();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // alert("요청 중 서버에서 에러가 발생하였습니다.");
+                console.log('errorThrown ::: ' , errorThrown)
+                // fncHideUIBlock();
+            },
+            success: function (json, textStatus) {
+                console.log(json.result);
+                alert("정상적으로 저장됐습니다.")
+                location.href="/board/"
+
+            },
+            complete: function (xhr, textStatus) {
+                // fncHideUIBlock();
+            }
+        });
+
+
+    }
+
+
+</script>
+{% endblock script %}

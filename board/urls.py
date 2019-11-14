@@ -16,11 +16,13 @@ Including another URLconf
 
 from django.conf.urls import url
 
-from .views import *
+from .views import BoardIndex, BoardForm, save_post
 
 app_name = 'board'
 
 urlpatterns = [
     url(r'^$', BoardIndex.as_view(), name='index'),
+    url(r'^form/$', BoardForm.as_view(), name='form'),
+    url(r'^save/$', save_post, name='save'),
 
 ]
